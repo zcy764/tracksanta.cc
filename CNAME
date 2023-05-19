@@ -1,1 +1,156 @@
-tracksanta.cc
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Countdown - TSCC</title>
+    <link rel="shortcut icon" type="x-icon" href="TSCC-Logo.png">
+    <style>
+        html, body {
+            height: 100%;
+            margin: 0;
+        }
+        body {
+            font-family: Arial, sans-serif;
+            text-align: center;
+            background-image: url("TSCC-Background.png");
+            background-repeat: no-repeat;
+            background-size: cover;
+        }
+
+        h1 {
+            font-family: Sofia, Arial, sans-serif;
+            opacity: 1; /* Added */
+            transition: opacity 0.5s ease; /* Added */
+        }
+
+        #countdown-container {
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            position: relative;
+        }
+
+        #countdown {
+            font-size: 40px;
+            opacity: 1;
+            transition: opacity 0.5s ease;
+        }
+
+        #countdown.hide {
+            opacity: 0;
+        }
+
+        #countdown-heading {
+            opacity: 1;
+            transition: opacity 0.5s ease;
+        }
+
+        #countdown-heading.hide {
+            opacity: 0;
+        }
+
+        #transmission {
+            position: absolute;
+            top: 50px;
+            left: 0;
+            right: 0;
+            font-size: 24px;
+            color: white;
+        }
+
+        #blue-bar {
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            height: 50px;
+            background-image: url("BlueBar.png");
+            background-repeat: repeat-x;
+            z-index: -1;
+        }
+    </style>
+</head>
+<body>
+    <div id="blue-bar"></div>
+    <div id="countdown-container">
+        <h1 id="countdown-heading">Santa Claus will depart in:</h1>
+        <div id="countdown"></div>
+        <div id="transmission"></div>
+    </div>
+
+    <script>
+        // Set the countdown date and time
+        var countdownDate = new Date("December 24, 2023 03:00:00 AM EST").getTime();
+
+        // Update the countdown every second
+        var countdown = setInterval(function() {
+            // Get the current date and time
+            var now = new Date().getTime();
+
+            // Find the time remaining until the countdown date
+            var timeRemaining = countdownDate - now;
+
+            // Calculate the days, hours, minutes, and seconds
+            var days = Math.floor(timeRemaining / (1000 * 60 * 60 * 24));
+            var hours = Math.floor((timeRemaining % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
+            var minutes = Math.floor((timeRemaining % (1000 * 60 * 60)) / (1000 * 60));
+            var seconds = Math.floor((timeRemaining % (1000 * 60)) / 1000);
+
+            // Display the countdown
+            document.getElementById("countdown").innerHTML = days + " days " + hours + " hours " + minutes + " minutes " + seconds + " seconds ";
+
+            // If the countdown is finished, display a message
+            if (timeRemaining < 0) {
+                clearInterval(countdown);
+
+                // Array of possible messages
+                var messages = [
+                    "Santa Claus has woken up from a long nap",
+                    "Santa is now getting dressed up preparing for his long journey",
+                    "Santa eats some milk and cookies for breakfast made by Mrs Claus",
+                    "Santa has just finished breakfast and now is checking up on his reindeers",
+                    "Santa's Elves monitor the weather to ensure a safe journey.",
+                    "Santa is reading letters from children all over the world with a smile on his face",
+                    "Santa checks on the presents to make sure its all organized",
+                    "The elves inform Santa that the weather will be good enough for the journey",
+                    "Santa Claus has double-checked his nice list reading through it",
+                    "Santa Claus checks up on his sleigh to ensure everything is ready",
+                    "Santa's elves put the last few presents in his sleigh",
+                    "The sleigh is completely ready and Santa Claus will take off shortly",
+                    "Santa Claus is now on his sleigh, waving a final goodbye to all his elves"
+                ];
+
+                var randomMinutes = [5, 10, 15];
+                var randomIndex = Math.floor(Math.random() * randomMinutes.length);
+                var interval = randomMinutes[randomIndex] * 60 * 1000;
+                var duration = 3 * 60 * 60 * 1000; // Total duration of 3 hours
+                var endTime = now + duration;
+
+                var currentIndex = 0;
+                var updateMessage = function() {
+                    if (currentIndex < messages.length) {
+                        var currentMessage = messages[currentIndex];
+                        document.getElementById("transmission").innerHTML = currentMessage;
+                        currentIndex++;
+                    } else {
+                        clearInterval(messageInterval);
+                        document.getElementById("transmission").innerHTML = "Santa Claus is on his sleigh, waving a final goodbye to all his elves!";
+                    }
+                };
+
+                updateMessage();
+                var messageInterval = setInterval(updateMessage, interval);
+
+                // Change the background image
+                document.body.style.backgroundImage = "url('Background2.png')";
+                document.getElementById("countdown-container").style.backgroundImage = "none";
+
+                // Add class to hide the countdown elements
+                document.getElementById("countdown").classList.add("hide");
+                document.getElementById("countdown-heading").classList.add("hide");
+            }
+        }, 1000);
+    </script>
+</body>
+</html>
