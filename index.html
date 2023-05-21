@@ -81,7 +81,7 @@
 
     <script>
         // Set the countdown date and time
-        var countdownDate = new Date("May 21, 2023 11:32:00  EST").getTime();
+        var countdownDate = new Date("May 21, 2023 12:35:00 EST").getTime();
 
         // Update the countdown every second
         var countdown = setInterval(function() {
@@ -111,17 +111,17 @@
                     "Santa eats some milk and cookies for breakfast made by Mrs Claus",
                     "Santa has just finished breakfast and now is checking up on his reindeers",
                     "Santa's Elves monitor the weather to ensure a safe journey.",
-                    "Santa reading newspaper before liftoff",
+                    "Santa is reading letters from children all over the world with a smile on his face",
                     "Santa checks on the presents to make sure its all organized",
                     "The elves inform Santa that the weather will be good enough for the journey",
                     "Santa Claus has double-checked his nice list reading through it",
                     "Santa Claus checks up on his sleigh to ensure everything is ready",
-                    "Santa’s elves is finishing last minute gift",
+                    "Santa's elves put the last few presents in his sleigh",
                     "The sleigh is completely ready and Santa Claus will take off shortly",
                     "Santa Claus is now on his sleigh, waving a final goodbye to all his elves"
                 ];
 
-                var randomMinutes = [15,];
+                var randomMinutes = [5, 10, 15];
                 var randomIndex = Math.floor(Math.random() * randomMinutes.length);
                 var interval = randomMinutes[randomIndex] * 60 * 1000;
                 var duration = 3 * 60 * 60 * 1000; // Total duration of 3 hours
