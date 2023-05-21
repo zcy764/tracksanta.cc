@@ -112,7 +112,7 @@
                     "Santa has just finished breakfast and now is checking up on his reindeers",
                     "Santa's Elves monitor the weather to ensure a safe journey.",
                     "Santa is reading letters from children all over the world with a smile on his face",
-                    "Santa checks on the presents to make sure its all organized",
+                    "Santa checks on the presents to make sure it's all organized",
                     "The elves inform Santa that the weather will be good enough for the journey",
                     "Santa Claus has double-checked his nice list reading through it",
                     "Santa Claus checks up on his sleigh to ensure everything is ready",
@@ -124,12 +124,12 @@
                 var randomMinutes = [5, 10, 15];
                 var randomIndex = Math.floor(Math.random() * randomMinutes.length);
                 var interval = randomMinutes[randomIndex] * 60 * 1000;
-                var duration = 3 * 60 * 60 * 1000; // Total duration of 3 hours
+                var duration = messages.length * interval; // Total duration based on the number of messages
                 var endTime = now + duration;
 
                 var currentIndex = 0;
                 var updateMessage = function() {
-                    if (currentIndex >= messages.length) {
+                    if (currentIndex >= messages.length || now >= endTime) {
                         clearInterval(messageInterval);
                         document.getElementById("transmission").innerHTML = messages[messages.length - 1];
                     } else {
@@ -154,4 +154,3 @@
     </script>
 </body>
 </html>
-
