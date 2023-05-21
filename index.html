@@ -81,7 +81,7 @@
 
     <script>
         // Set the countdown date and time
-        var countdownDate = new Date("May 21, 2023 11:40:00 EST").getTime();
+        var countdownDate = new Date("May 21, 2023 11:51:00 EST").getTime();
 
         // Update the countdown every second
         var countdown = setInterval(function() {
@@ -118,7 +118,7 @@
                     "Santa Claus checks up on his sleigh to ensure everything is ready",
                     "Santa's elves put the last few presents in his sleigh",
                     "The sleigh is completely ready and Santa Claus will take off shortly",
-                    "Santa Claus is now on his sleigh, waving a final goodbye to all his elves"
+                    "Santa Claus is on his sleigh, waving a final goodbye to all his elves"
                 ];
 
                 var randomMinutes = [5, 10, 15];
@@ -129,13 +129,13 @@
 
                 var currentIndex = 0;
                 var updateMessage = function() {
-                    if (currentIndex < messages.length) {
+                    if (currentIndex >= messages.length) {
+                        clearInterval(messageInterval);
+                        document.getElementById("transmission").innerHTML = messages[messages.length - 1];
+                    } else {
                         var currentMessage = messages[currentIndex];
                         document.getElementById("transmission").innerHTML = currentMessage;
                         currentIndex++;
-                    } else {
-                        clearInterval(messageInterval);
-                        document.getElementById("transmission").innerHTML = "Santa Claus is on his sleigh, waving a final goodbye to all his elves!";
                     }
                 };
 
@@ -153,4 +153,5 @@
         }, 1000);
     </script>
 </body>
-</html>
+</html
+
