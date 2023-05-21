@@ -2,6 +2,7 @@
 <html>
 <head>
     <title>Countdown - TSCC</title>
+    <link rel="shortcut icon" type="x-icon" href="TSCC-Logo.png">
     <style>
         html, body {
             height: 100%;
@@ -10,13 +11,15 @@
         body {
             font-family: Arial, sans-serif;
             text-align: center;
-            background-color: #f2f2f2;
+            background-image: url("TSCC-Background.png");
+            background-repeat: no-repeat;
+            background-size: cover;
         }
 
         h1 {
             font-family: Sofia, Arial, sans-serif;
-            opacity: 1;
-            transition: opacity 0.5s ease;
+            opacity: 1; /* Added */
+            transition: opacity 0.5s ease; /* Added */
         }
 
         #countdown-container {
@@ -53,11 +56,23 @@
             left: 0;
             right: 0;
             font-size: 24px;
-            color: #555555;
+            color: white;
+        }
+
+        #blue-bar {
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            height: 50px;
+            background-image: url("BlueBar.png");
+            background-repeat: repeat-x;
+            z-index: -1;
         }
     </style>
 </head>
 <body>
+    <div id="blue-bar"></div>
     <div id="countdown-container">
         <h1 id="countdown-heading">Santa Claus will depart in:</h1>
         <div id="countdown"></div>
@@ -66,7 +81,7 @@
 
     <script>
         // Set the countdown date and time
-        var countdownDate = new Date("December 24, 2023 01:00:00  EST").getTime();
+        var countdownDate = new Date("December 24, 2023 01:00:00 AM EST").getTime();
 
         // Update the countdown and display messages
         function updateCountdown() {
@@ -97,9 +112,9 @@
                     "Santa has just finished breakfast and now is checking up on his reindeers",
                     "Santa's Elves monitor the weather to ensure a safe journey.",
                     "Santa is reading letters from children all over the world with a smile on his face",
-                    "Santa checks on the presents to make sure everything is organized",
+                    "Santa checks on the presents to make sure its all organized",
                     "The elves inform Santa that the weather will be good enough for the journey",
-                    "Santa Claus has double-checked his nice list by reading through it",
+                    "Santa Claus has double-checked his nice list reading through it",
                     "Santa Claus checks up on his sleigh to ensure everything is ready",
                     "Santa's elves put the last few presents in his sleigh",
                     "The sleigh is completely ready and Santa Claus will take off shortly",
@@ -126,6 +141,10 @@
 
                 updateMessage();
                 var messageInterval = setInterval(updateMessage, interval);
+
+                // Change the background image
+                document.body.style.backgroundImage = "url('Background2.png')";
+                document.getElementById("countdown-container").style.backgroundImage = "none";
 
                 // Add class to hide the countdown elements
                 document.getElementById("countdown").classList.add("hide");
