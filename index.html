@@ -1,7 +1,5 @@
 <!DOCTYPE html>
 <html>
-<head><!DOCTYPE html>
-<html>
 <head><script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-9491485411064787"
      crossorigin="anonymous"></script>
     <title>Countdown - TSCC</title>
@@ -17,14 +15,13 @@
             background-image: url("TSCC-Background.png");
             background-repeat: no-repeat;
             background-size: cover;
-            color: white; /* Added */
-        }
+            color: white;
         }
 
         h1 {
             font-family: Sofia, Arial, sans-serif;
-            opacity: 1; /* Added */
-            transition: opacity 0.5s ease; /* Added */
+            opacity: 1;
+            transition: opacity 0.5s ease;
         }
 
         #countdown-container {
@@ -87,6 +84,9 @@
         // Set the countdown date and time
         var countdownDate = new Date("December 24, 2023 01:00:00  EST").getTime();
 
+        // Get the current message index from local storage or default to 0
+        var currentIndex = localStorage.getItem("currentIndex") || 0;
+
         // Update the countdown and display messages
         function updateCountdown() {
             // Get the current date and time
@@ -104,7 +104,7 @@
             // Display the countdown
             document.getElementById("countdown").innerHTML = days + " days " + hours + " hours " + minutes + " minutes " + seconds + " seconds ";
 
-            // If the countdown is finished, display a message
+            // If the countdown is finished, display messages
             if (timeRemaining < 0) {
                 clearInterval(countdown);
 
@@ -131,7 +131,6 @@
                 var duration = 3 * 60 * 60 * 1000; // Total duration of 3 hours
                 var endTime = now + duration;
 
-                var currentIndex = 0;
                 var updateMessage = function() {
                     if (currentIndex < messages.length) {
                         var currentMessage = messages[currentIndex];
@@ -141,6 +140,8 @@
                         clearInterval(messageInterval);
                         document.getElementById("transmission").innerHTML = "Santa Claus is on his sleigh, waving a final goodbye to all his elves!";
                     }
+                    // Store the current message index in local storage
+                    localStorage.setItem("currentIndex", currentIndex);
                 };
 
                 updateMessage();
