@@ -6,11 +6,18 @@
   <link href="https://api.mapbox.com/mapbox-gl-js/v2.4.0/mapbox-gl.css" rel="stylesheet" />
   <style>
     #map {
+      position: fixed;
+      top: 0;
+      left: 0;
       width: 100%;
-      height: 600px;
+      height: 100%;
     }
 
     .tracker-bar {
+      position: fixed;
+      top: 0;
+      left: 0;
+      right: 0;
       background-color: #333;
       color: #FFF;
       font-size: 18px;
@@ -18,6 +25,7 @@
       display: flex;
       justify-content: space-between;
       align-items: center;
+      z-index: 9999;
     }
 
     .tracker-info {
@@ -28,16 +36,39 @@
     .tracker-info-item {
       margin-right: 20px;
     }
+
+    /* Dark mode */
+    body.dark-mode {
+      background-color: #333;
+      color: #FFF;
+    }
+
+    body.dark-mode .tracker-bar {
+      background-color: #FFF;
+      color: #333;
+    }
+
+    body.dark-mode .tracker-info-item {
+      color: #FFF;
+    }
+
+    body.dark-mode #mapboxgl-ctrl-logo {
+      filter: invert(1);
+    }
+
+    body.dark-mode #mapboxgl-ctrl-logo-emblem {
+      background-color: #FFF;
+    }
   </style>
 </head>
 <body>
   <div class="tracker-bar">
     <div class="tracker-info">
       <div class="tracker-info-item">Gifts Delivered: <span id="gifts-delivered">0</span></div>
-      <div class="tracker-info-item">Santa's Destination: <span id="destination"></span></div>
-      <div class="tracker-info-item">Time Elapsed: <span id="time-elapsed"></span></div>
+      <div class="tracker-info-item">Last Seen: <span id="last-seen"></span></div>
     </div>
     <div id="last-delivery"></div>
+    <button id="mode-toggle">Toggle Mode</button>
   </div>
   <div id="map"></div>
 
@@ -88,7 +119,24 @@
           var currentIndex = 0;
           var santaMarker = null;
           var giftsDelivered = 0;
-          var startTime = new Date();
+
+          // Get current time in EST
+          var currentTime = new Date();
+          var estOffset = -5 * 60; // Eastern Standard Time offset in minutes (UTC -5)
+          currentTime.setMinutes(currentTime.getMinutes() + currentTime.getTimezoneOffset() + estOffset);
+
+          // Set the start and end times for tracking
+          var startDateTime = new Date(currentTime.getFullYear(), 11, 24, 6, 0, 0); // December 24th, 6am EST
+          var endDateTime = new Date(currentTime.getFullYear(), 11, 25, 6, 0, 0); // December 25th, 6am EST
+
+          // Check if the current time is within the tracking period
+          if (currentTime >= startDateTime && currentTime < endDateTime) {
+            // Calculate the delay until the start time
+            var delay = startDateTime - currentTime;
+
+            // Wait for the delay before starting the tracker
+            setTimeout(updateTracker, delay);
+          }
 
           function updateTracker() {
             var waypoint = waypoints[currentIndex];
@@ -100,16 +148,8 @@
             giftsDelivered++;
             document.getElementById('gifts-delivered').textContent = giftsDelivered;
 
-            // Update destination
-            var destination = currentIndex < waypoints.length - 1 ? waypoints[currentIndex + 1].name : 'Final Destination';
-            document.getElementById('destination').textContent = destination;
-
-            // Calculate time elapsed
-            var currentTime = new Date();
-            var timeElapsed = Math.round((currentTime - startTime) / 1000);
-            var minutes = Math.floor(timeElapsed / 60);
-            var seconds = timeElapsed % 60;
-            document.getElementById('time-elapsed').textContent = minutes + 'm ' + seconds + 's';
+            // Update last seen
+            document.getElementById('last-seen').textContent = waypoint.name;
 
             // Create or move the Santa marker
             if (santaMarker) {
@@ -122,24 +162,30 @@
 
             currentIndex++;
             if (currentIndex < waypoints.length) {
-              var currentTimeHours = currentTime.getHours();
-              var endTimeHours = (startTime.getHours() + 24) % 24; // 6 am of the next day
+              var delay = 500;
 
-              // Check if current time is within the desired time range (6 am to 6 am)
-              if (currentTimeHours >= 6 && currentTimeHours < endTimeHours) {
-                setTimeout(updateTracker, 500); // Change the timeout value to adjust the tracker speed
-              } else {
-                setTimeout(updateTracker, 1000); // Wait for 1 second if outside the time range
+              // Set delay based on current stop
+              if (currentIndex === 1) {
+                delay = 300000; // 5 minutes (in milliseconds) for the first stop
+              } else if (currentIndex === waypoints.length - 1) {
+                delay = Math.floor(Math.random() * (600000 - 480000 + 1)) + 480000; // 8-10 minutes (in milliseconds) for the last stop
               }
+
+              setTimeout(updateTracker, delay);
             }
           }
-
-          updateTracker();
         });
       })
       .catch(error => {
         console.error('Error loading JSON file:', error);
       });
+
+    // Toggle dark mode
+    var modeToggle = document.getElementById('mode-toggle');
+    modeToggle.addEventListener('click', function () {
+      document.body.classList.toggle('dark-mode');
+    });
   </script>
 </body>
 </html>
+
