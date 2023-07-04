@@ -1,18 +1,10 @@
 <!DOCTYPE html>
 <html>
 <head>
-    <meta property="og:title" content="TrackSanta.cc">
-    <meta property="og:description" content="Santa Tracker broadcasted from December 24 - December 25 every year!">
-    <meta property="og:image" content="https://media.discordapp.net/attachments/1108153694987501599/1108586021840502875/TSCC-Logo.png">
-    <meta property="og:url" content="https://www.tracksanta.cc/">
   <title>Santa Tracker</title>
   <script src="https://api.mapbox.com/mapbox-gl-js/v2.4.0/mapbox-gl.js"></script>
   <link href="https://api.mapbox.com/mapbox-gl-js/v2.4.0/mapbox-gl.css" rel="stylesheet" />
   <style>
-    body {
-      font-family: system-ui;
-    }
-    
     #map {
       position: fixed;
       top: 0;
@@ -208,8 +200,22 @@
     var modeToggle = document.getElementById('mode-toggle');
     modeToggle.addEventListener('click', function () {
       document.body.classList.toggle('dark-mode');
+      toggleMapStyle();
     });
+
+    // Detect system color scheme preference
+    var prefersDarkMode = window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches;
+    if (prefersDarkMode) {
+      document.body.classList.add('dark-mode');
+      toggleMapStyle();
+    }
+
+    // Toggle map style for dark mode
+    function toggleMapStyle() {
+      var isDarkMode = document.body.classList.contains('dark-mode');
+      var mapStyle = isDarkMode ? 'mapbox://styles/mapbox/dark-v10' : 'mapbox://styles/mapbox/streets-v11';
+      map.setStyle(mapStyle);
+    }
   </script>
 </body>
 </html>
-
