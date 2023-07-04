@@ -66,6 +66,7 @@
     <div class="tracker-info">
       <div class="tracker-info-item">Gifts Delivered: <span id="gifts-delivered">0</span></div>
       <div class="tracker-info-item">Last Seen: <span id="last-seen"></span></div>
+      <div class="tracker-info-item">Next Delivery: <span id="next-delivery"></span></div> <!-- Added line -->
     </div>
     <div id="last-delivery"></div>
     <button id="mode-toggle">Toggle Mode</button>
@@ -150,6 +151,21 @@
 
             // Update last seen
             document.getElementById('last-seen').textContent = waypoint.name;
+
+            // Calculate time until next delivery
+            var nextWaypoint = waypoints[currentIndex + 1];
+            if (nextWaypoint) {
+              var nextDeliveryTime = new Date(nextWaypoint.timestamp);
+              var currentTime = new Date();
+              var timeUntilNextDelivery = Math.round((nextDeliveryTime - currentTime) / 1000); // Convert to seconds
+
+              // Format the time
+              var minutes = Math.floor(timeUntilNextDelivery / 60);
+              var seconds = timeUntilNextDelivery % 60;
+
+              // Update next delivery element
+              document.getElementById('next-delivery').textContent = minutes + ' mins ' + seconds + ' secs';
+            }
 
             // Create or move the Santa marker
             if (santaMarker) {
