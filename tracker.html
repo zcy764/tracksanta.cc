@@ -44,8 +44,8 @@
     }
 
     body.dark-mode .tracker-bar {
-      background-color: #FFF;
-      color: #333;
+      background-color: #333;
+      color: #FFF;
     }
 
     body.dark-mode .tracker-info-item {
@@ -59,14 +59,37 @@
     body.dark-mode #mapboxgl-ctrl-logo-emblem {
       background-color: #FFF;
     }
+
+    /* Light mode */
+    body.light-mode {
+      background-color: #FFF;
+      color: #333;
+    }
+
+    body.light-mode .tracker-bar {
+      background-color: #FFF;
+      color: #333;
+    }
+
+    body.light-mode .tracker-info-item {
+      color: #333;
+    }
+
+    body.light-mode #mapboxgl-ctrl-logo {
+      filter: invert(0);
+    }
+
+    body.light-mode #mapboxgl-ctrl-logo-emblem {
+      background-color: #333;
+    }
   </style>
 </head>
-<body>
+<body class="light-mode">
   <div class="tracker-bar">
     <div class="tracker-info">
       <div class="tracker-info-item">Gifts Delivered: <span id="gifts-delivered">0</span></div>
       <div class="tracker-info-item">Last Seen: <span id="last-seen"></span></div>
-      <div class="tracker-info-item">Next Delivery: <span id="next-delivery"></span></div> <!-- Added line -->
+      <div class="tracker-info-item">Next Delivery: <span id="next-delivery"></span></div>
     </div>
     <div id="last-delivery"></div>
     <button id="mode-toggle">Toggle Mode</button>
@@ -219,3 +242,4 @@
   </script>
 </body>
 </html>
+
