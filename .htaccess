@@ -1,0 +1,6 @@
+RewriteEngine on
+# Redirect /page_name1 to /name1.html
+RewriteRule ^countdown$ /countdown.html [L]
+
+# Redirect /page_name2 to /name.html
+RewriteRule ^page_name2$ /tracker.html [L]
