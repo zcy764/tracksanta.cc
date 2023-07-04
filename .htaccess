@@ -3,4 +3,4 @@ RewriteEngine on
 RewriteRule ^countdown$ /countdown.html [L]
 
 # Redirect /page_name2 to /name.html
-RewriteRule ^page_name2$ /tracker.html [L]
+RewriteRule ^tracker$ /tracker.html [L]
