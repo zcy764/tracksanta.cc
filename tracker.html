@@ -1,0 +1,145 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Santa Tracker</title>
+  <script src="https://api.mapbox.com/mapbox-gl-js/v2.4.0/mapbox-gl.js"></script>
+  <link href="https://api.mapbox.com/mapbox-gl-js/v2.4.0/mapbox-gl.css" rel="stylesheet" />
+  <style>
+    #map {
+      width: 100%;
+      height: 600px;
+    }
+
+    .tracker-bar {
+      background-color: #333;
+      color: #FFF;
+      font-size: 18px;
+      padding: 10px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
+
+    .tracker-info {
+      display: flex;
+      align-items: center;
+    }
+
+    .tracker-info-item {
+      margin-right: 20px;
+    }
+  </style>
+</head>
+<body>
+  <div class="tracker-bar">
+    <div class="tracker-info">
+      <div class="tracker-info-item">Gifts Delivered: <span id="gifts-delivered">0</span></div>
+      <div class="tracker-info-item">Santa's Destination: <span id="destination"></span></div>
+      <div class="tracker-info-item">Time Elapsed: <span id="time-elapsed"></span></div>
+    </div>
+    <div id="last-delivery"></div>
+  </div>
+  <div id="map"></div>
+
+  <script>
+    mapboxgl.accessToken = '';
+
+    var map = new mapboxgl.Map({
+      container: 'map',
+      style: 'mapbox://styles/mapbox/streets-v11',
+      center: [0, 0],
+      zoom: 2
+    });
+
+    // Load the JSON file
+    fetch('path/to/your/json/file.json')
+      .then(response => response.json())
+      .then(data => {
+        var waypoints = data.waypoints;
+        var coordinates = waypoints.map(waypoint => [waypoint.longitude, waypoint.latitude]);
+
+        map.on('load', function () {
+          map.addSource('route', {
+            'type': 'geojson',
+            'data': {
+              'type': 'Feature',
+              'properties': {},
+              'geometry': {
+                'type': 'LineString',
+                'coordinates': coordinates
+              }
+            }
+          });
+
+          map.addLayer({
+            'id': 'route',
+            'type': 'line',
+            'source': 'route',
+            'layout': {
+              'line-join': 'round',
+              'line-cap': 'round'
+            },
+            'paint': {
+              'line-color': '#FF0000',
+              'line-width': 3
+            }
+          });
+
+          var currentIndex = 0;
+          var santaMarker = null;
+          var giftsDelivered = 0;
+          var startTime = new Date();
+
+          function updateTracker() {
+            var waypoint = waypoints[currentIndex];
+
+            // Update last delivery
+            document.getElementById('last-delivery').textContent = 'Last Delivery: ' + waypoint.name;
+
+            // Update gifts delivered
+            giftsDelivered++;
+            document.getElementById('gifts-delivered').textContent = giftsDelivered;
+
+            // Update destination
+            var destination = currentIndex < waypoints.length - 1 ? waypoints[currentIndex + 1].name : 'Final Destination';
+            document.getElementById('destination').textContent = destination;
+
+            // Calculate time elapsed
+            var currentTime = new Date();
+            var timeElapsed = Math.round((currentTime - startTime) / 1000);
+            var minutes = Math.floor(timeElapsed / 60);
+            var seconds = timeElapsed % 60;
+            document.getElementById('time-elapsed').textContent = minutes + 'm ' + seconds + 's';
+
+            // Create or move the Santa marker
+            if (santaMarker) {
+              santaMarker.setLngLat([waypoint.longitude, waypoint.latitude]);
+            } else {
+              santaMarker = new mapboxgl.Marker({ color: '#FFFFFF' })
+                .setLngLat([waypoint.longitude, waypoint.latitude])
+                .addTo(map);
+            }
+
+            currentIndex++;
+            if (currentIndex < waypoints.length) {
+              var currentTimeHours = currentTime.getHours();
+              var endTimeHours = (startTime.getHours() + 24) % 24; // 6 am of the next day
+
+              // Check if current time is within the desired time range (6 am to 6 am)
+              if (currentTimeHours >= 6 && currentTimeHours < endTimeHours) {
+                setTimeout(updateTracker, 500); // Change the timeout value to adjust the tracker speed
+              } else {
+                setTimeout(updateTracker, 1000); // Wait for 1 second if outside the time range
+              }
+            }
+          }
+
+          updateTracker();
+        });
+      })
+      .catch(error => {
+        console.error('Error loading JSON file:', error);
+      });
+  </script>
+</body>
+</html>
