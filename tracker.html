@@ -82,6 +82,11 @@
     body.light-mode #mapboxgl-ctrl-logo-emblem {
       background-color: #333;
     }
+
+    /* Additional Styling */
+    .tracker-info-item span {
+      margin-left: 5px;
+    }
   </style>
 </head>
 <body class="light-mode">
@@ -92,7 +97,7 @@
       <div class="tracker-info-item">Next Delivery: <span id="next-delivery"></span></div>
     </div>
     <div id="last-delivery"></div>
-    <button id="mode-toggle">Light darkmode</button>
+    <button id="mode-toggle">Toggle Dark/Light Mode</button>
   </div>
   <div id="map"></div>
 
@@ -227,4 +232,5 @@
   </script>
 </body>
 </html>
+
 
