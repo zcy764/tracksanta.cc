@@ -37,59 +37,13 @@
       margin-right: 20px;
     }
 
-    /* Dark mode */
-    body.dark-mode {
-      background-color: #333;
-      color: #FFF;
-    }
-
-    body.dark-mode .tracker-bar {
-      background-color: #333;
-      color: #FFF;
-    }
-
-    body.dark-mode .tracker-info-item {
-      color: #FFF;
-    }
-
-    body.dark-mode #mapboxgl-ctrl-logo {
-      filter: invert(1);
-    }
-
-    body.dark-mode #mapboxgl-ctrl-logo-emblem {
-      background-color: #FFF;
-    }
-
-    /* Light mode */
-    body.light-mode {
-      background-color: #FFF;
-      color: #333;
-    }
-
-    body.light-mode .tracker-bar {
-      background-color: #FFF;
-      color: #333;
-    }
-
-    body.light-mode .tracker-info-item {
-      color: #333;
-    }
-
-    body.light-mode #mapboxgl-ctrl-logo {
-      filter: invert(0);
-    }
-
-    body.light-mode #mapboxgl-ctrl-logo-emblem {
-      background-color: #333;
-    }
-
     /* Additional Styling */
     .tracker-info-item span {
       margin-left: 5px;
     }
   </style>
 </head>
-<body class="light-mode">
+<body>
   <div class="tracker-bar">
     <div class="tracker-info">
       <div class="tracker-info-item">Gifts Delivered: <span id="gifts-delivered">0</span></div>
@@ -97,7 +51,6 @@
       <div class="tracker-info-item">Next Delivery: <span id="next-delivery"></span></div>
     </div>
     <div id="last-delivery"></div>
-    <button id="mode-toggle">Toggle Dark/Light Mode</button>
   </div>
   <div id="map"></div>
 
@@ -218,15 +171,6 @@
               setTimeout(updateTracker, delay);
             }
           }
-
-          // Toggle dark/light mode
-          var modeToggle = document.getElementById('mode-toggle');
-          var body = document.body;
-
-          modeToggle.addEventListener('click', function () {
-            body.classList.toggle('dark-mode');
-            body.classList.toggle('light-mode');
-          });
         });
       });
   </script>
