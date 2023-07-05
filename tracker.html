@@ -162,6 +162,20 @@
             setTimeout(updateTracker, delay);
           }
 
+          function createSantaIconElement() {
+            var iconElement = document.createElement('img');
+            iconElement.src = 'santa.png';
+            iconElement.className = 'santa-icon';
+            return iconElement;
+          }
+
+          function createPresentsIconElement() {
+            var iconElement = document.createElement('img');
+            iconElement.src = 'presents.png';
+            iconElement.className = 'presents-icon';
+            return iconElement;
+          }
+
           function updateTracker() {
             var waypoint = waypoints[currentIndex];
 
@@ -194,51 +208,40 @@
             if (santaMarker) {
               santaMarker.setLngLat([waypoint.longitude, waypoint.latitude]);
             } else {
-              santaMarker = new mapboxgl.Marker({ color: '#FFFFFF' })
+              santaMarker = new mapboxgl.Marker({ element: createSantaIconElement() })
                 .setLngLat([waypoint.longitude, waypoint.latitude])
                 .addTo(map);
             }
 
+            // Create a presents marker
+            var presentsMarker = new mapboxgl.Marker({ element: createPresentsIconElement() })
+              .setLngLat([waypoint.longitude, waypoint.latitude])
+              .addTo(map);
+
+            // Fly to the current location
+            map.flyTo({ center: [waypoint.longitude, waypoint.latitude], zoom: 8 });
+
+            // Update the current index
             currentIndex++;
+
+            // Check if we've reached the end of the waypoints
             if (currentIndex < waypoints.length) {
-              var delay = 500;
-
-              // Set delay based on current stop
-              if (currentIndex === 1) {
-                delay = 300000; // 5 minutes (in milliseconds) for the first stop
-              } else if (currentIndex === waypoints.length - 1) {
-                delay = Math.floor(Math.random() * (600000 - 480000 + 1)) + 480000; // 8-10 minutes (in milliseconds) for the last stop
-              }
-
-              setTimeout(updateTracker, delay);
+              // Schedule the next update
+              setTimeout(updateTracker, 1000);
             }
           }
+
+          // Toggle dark/light mode
+          var modeToggle = document.getElementById('mode-toggle');
+          modeToggle.addEventListener('click', function () {
+            document.body.classList.toggle('dark-mode');
+            document.body.classList.toggle('light-mode');
+          });
         });
       })
       .catch(error => {
-        console.error('Error loading JSON file:', error);
+        console.log('Error loading JSON file:', error);
       });
-
-    // Toggle dark mode
-    var modeToggle = document.getElementById('mode-toggle');
-    modeToggle.addEventListener('click', function () {
-      document.body.classList.toggle('dark-mode');
-      toggleMapStyle();
-    });
-
-    // Detect system color scheme preference
-    var prefersDarkMode = window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches;
-    if (prefersDarkMode) {
-      document.body.classList.add('dark-mode');
-      toggleMapStyle();
-    }
-
-    // Toggle map style for dark mode
-    function toggleMapStyle() {
-      var isDarkMode = document.body.classList.contains('dark-mode');
-      var mapStyle = isDarkMode ? 'mapbox://styles/mapbox/dark-v10' : 'mapbox://styles/mapbox/streets-v11';
-      map.setStyle(mapStyle);
-    }
   </script>
 </body>
 </html>
