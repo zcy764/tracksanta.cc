@@ -5,6 +5,11 @@
   <script src="https://api.mapbox.com/mapbox-gl-js/v2.4.0/mapbox-gl.js"></script>
   <link href="https://api.mapbox.com/mapbox-gl-js/v2.4.0/mapbox-gl.css" rel="stylesheet" />
   <style>
+    body {
+      background-color: #FFF;
+      color: #333;
+    }
+
     #map {
       position: fixed;
       top: 0;
@@ -41,6 +46,24 @@
     .tracker-info-item span {
       margin-left: 5px;
     }
+
+    /* Dark Mode Styling */
+    body.dark-mode {
+      background-color: #333;
+      color: #FFF;
+    }
+
+    .dark-mode #map {
+      filter: invert(100%);
+    }
+
+    .dark-mode .tracker-bar {
+      background-color: #111;
+    }
+
+    .dark-mode .tracker-info-item span {
+      color: #FFF;
+    }
   </style>
 </head>
 <body>
@@ -54,7 +77,15 @@
   </div>
   <div id="map"></div>
 
+  <button id="dark-mode-toggle">Toggle Dark Mode</button>
+
   <script>
+    // Dark Mode Toggle
+    var darkModeToggle = document.getElementById('dark-mode-toggle');
+    darkModeToggle.addEventListener('click', function() {
+      document.body.classList.toggle('dark-mode');
+    });
+
     mapboxgl.accessToken = 'pk.eyJ1IjoidHJhY2tzYW50YWNjIiwiYSI6ImNsaHYycjNvazA0dWMzZ3MyenRpNm5rc3cifQ.7-lCN0Pzzhyys4mRpVfWMA';
 
     var map = new mapboxgl.Map({
