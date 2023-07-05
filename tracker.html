@@ -92,7 +92,7 @@
       <div class="tracker-info-item">Next Delivery: <span id="next-delivery"></span></div>
     </div>
     <div id="last-delivery"></div>
-    <button id="mode-toggle">Toggle Mode</button>
+    <button id="mode-toggle">Light darkmode</button>
   </div>
   <div id="map"></div>
 
@@ -207,41 +207,24 @@
               if (currentIndex === 1) {
                 delay = 300000; // 5 minutes (in milliseconds) for the first stop
               } else if (currentIndex === waypoints.length - 1) {
-                delay = Math.floor(Math.random() * (600000 - 480000 + 1)) + 480000; // 8-10 minutes (in milliseconds) for the last stop
+                delay = 300000; // 5 minutes (in milliseconds) for the last stop
               }
 
               setTimeout(updateTracker, delay);
             }
           }
+
+          // Toggle dark/light mode
+          var modeToggle = document.getElementById('mode-toggle');
+          var body = document.body;
+
+          modeToggle.addEventListener('click', function () {
+            body.classList.toggle('dark-mode');
+            body.classList.toggle('light-mode');
+          });
         });
-      })
-      .catch(error => {
-        console.error('Error loading JSON file:', error);
       });
-
-    // Toggle dark mode
-    var modeToggle = document.getElementById('mode-toggle');
-    modeToggle.addEventListener('click', function () {
-      document.body.classList.toggle('dark-mode');
-      toggleMapStyle();
-    });
-
-    // Detect system color scheme preference
-    var prefersDarkMode = window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches;
-    if (prefersDarkMode) {
-      document.body.classList.add('dark-mode');
-      toggleMapStyle();
-    }
-
-    // Toggle map style for dark mode
-    function toggleMapStyle() {
-      var isDarkMode = document.body.classList.contains('dark-mode');
-      var mapStyle = isDarkMode ? 'mapbox://styles/mapbox/dark-v10' : 'mapbox://styles/mapbox/streets-v11';
-      map.setStyle(mapStyle);
-    }
   </script>
 </body>
 </html>
-
-
 
