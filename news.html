@@ -1,38 +1,61 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="utf-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1">
-  <title>Redirecting you...</title>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>News</title>
   <style>
     body {
-      font-size: 24px;
-      text-align: center;
-      padding: 40px;
+      font-family: Arial, sans-serif;
+      margin: 20px;
     }
 
-    p {
+    h1 {
+      text-align: center;
+    }
+
+    .article {
       margin-bottom: 20px;
     }
 
-    a {
-      color: blue;
-      text-decoration: none;
+    .title {
+      font-size: 24px;
+      font-weight: bold;
+    }
+
+    .description {
+      margin-top: 5px;
+      font-size: 18px;
+    }
+
+    .source {
+      font-size: 14px;
+      color: #888;
     }
   </style>
 </head>
 <body>
-  <noscript>
-    <meta http-equiv="Refresh" content="0;URL=/news/">
-  </noscript>
+  <h1>Latest News</h1>
 
-  <script>
-    window.location.replace("/news/");
-  </script>
+  <div id="news-container">
+    <div class="article">
+      <h2 class="title">Sample Article 1</h2>
+      <p class="description">This is a sample news article description.</p>
+      <p class="source">Source: Sample News</p>
+    </div>
 
-  <p>
-    Redirecting you... <br>
-    If you aren't automatically redirected, please click <a href="/news/">here</a>.
-  </p>
+    <div class="article">
+      <h2 class="title">Sample Article 2</h2>
+      <p class="description">This is another sample news article description.</p>
+      <p class="source">Source: Sample News</p>
+    </div>
+
+    <div class="article">
+      <h2 class="title">Sample Article 3</h2>
+      <p class="description">Yet another sample news article description.</p>
+      <p class="source">Source: Sample News</p>
+    </div>
+  </div>
 </body>
 </html>
+
