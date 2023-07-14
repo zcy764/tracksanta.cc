@@ -6,7 +6,7 @@ RewriteRule ^countdown$ /countdown.html [L]
 RewriteRule ^tracker$ /tracker.html [L]
 
 # Redirect /page_name2 to /name.html
-RewriteRule ^tracker$ /news.html [L]
+RewriteRule ^tracker$ /qna.html [L]
 
 # Redirect /page_name2 to /name.html
 RewriteRule ^tracker$ /thankyou.html [L]
